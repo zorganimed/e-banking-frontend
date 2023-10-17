@@ -11,6 +11,6 @@ export class CustomerService {
   constructor(private http : HttpClient) { }
 
   public getCustomers():Observable<Array<Customer>>{
-    return this.http.get<Array<Customer>>("http://localhost:8080/customer")
+    return this.http.get<Array<Customer>>("http://localhost:8080/customers")
   }
 }
