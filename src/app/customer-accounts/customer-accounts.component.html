@@ -1,7 +1,24 @@
-<div>
-  {{customerId}}
-</div>
-
-<div>
-  {{customer | json}}
-</div>
+<table class="table">
+  <thead>
+  <tr>
+    <th>Customer</th><th>Id</th><th>Type</th><th>Date</th><th>Balance</th>
+    <th>Interest Rate</th><th>Over Draft</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let c of customerAccounts|async">
+    <td>{{c.customerDTO.name}}</td>
+    <td>{{c.id}}</td>
+    <td>{{c.type}}</td>
+    <td>{{c.createDate | date : 'dd/MM/yyyy:HH-mm-ss'}}</td>
+    <td>{{c.balance | number : '1.2-3'}}</td>
+    <td>{{c.interestRate | number : '1.2-2'}}</td>
+    <td>{{c.overDraft | number : '1.2-2'}}</td>
+    <td>
+      <button (click)="handleDeleteAccount(c)" class="btn btn-danger">
+        <i class="bi bi-trash"></i>
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>

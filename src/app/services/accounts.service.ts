@@ -29,4 +29,8 @@ export class AccountsService {
     let data = {accountSource,accountDestination,amount,description};
     return this.http.post(environment.backendHost+"accounts/transfer",data);
   }
+
+  public deleteAccount(id :string){
+    return this.http.delete(environment.backendHost+"accounts/"+id);
+  }
 }
