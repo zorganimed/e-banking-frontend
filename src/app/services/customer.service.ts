@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Customer} from "../model/customer.model";
+import {Customer, CustomerPage} from "../model/customer.model";
 import {environment} from "../../environments/environment.development";
 import {CustomerAccounts} from "../model/customer-accounts.model";
 
@@ -34,5 +34,9 @@ export class CustomerService {
   public getCustomerAccounts(customerId : string):Observable<Array<CustomerAccounts>>{
     return this.http.get<Array<CustomerAccounts>>(environment.backendHost+"customers/"+customerId+"/accounts")
 
+  }
+
+  public searchCustomersPage(keyword : string, page : number, size : number):Observable<CustomerPage>{
+    return this.http.get<CustomerPage>(environment.backendHost+"customers/searchByName?keyword="+keyword+"&page="+page+"&size="+size);
   }
 }

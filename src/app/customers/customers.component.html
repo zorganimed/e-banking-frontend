@@ -1,11 +1,10 @@
 
 <div class="container mt-2">
-  <ng-container *ngIf="customers | async as listCustomers; else failureOrLoading">
     <div class="card-header">Customers</div>
     <div class="card-body">
       <div *ngIf="searchFormGroup">
         <!--{{this.searchFormGroup.value | json}}-->
-        <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchCustomers()">
+        <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchCustomersPage()">
           <div class="input-group">
             <label class="input-group-text">Keyword:</label>
             <input type="text" formControlName="keyword" class="form-control"/>
@@ -15,6 +14,7 @@
           </div>
         </form>
       </div>
+      <ng-container *ngIf="customersPageObservable | async as customerPage; else failureOrLoading">
       <table class="table">
         <thead>
         <tr>
@@ -22,7 +22,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let c of customers|async">
+        <tr *ngFor="let c of customerPage.customerDTOS">
           <td>{{c.id}}</td>
           <td>{{c.name}}</td>
           <td>{{c.email}}</td>
@@ -39,7 +39,11 @@
         </tr>
         </tbody>
       </table>
-    </div>
+        <ul class="nav nav-pills">
+          <li *ngFor="let item of [].constructor(customerPage.totalPages); let page = index">
+            <a [ngClass]="page == currentPage ? 'btn-info':'btn-outline-info'" (click)="gotoPage(page)" class="btn ms-1 mt-1">{{page}}</a>
+          </li>
+        </ul>
   </ng-container>
   <ng-template #failureOrLoading class="text-danger">
     <ng-container *ngIf="errorMessage; else loading">
@@ -52,4 +56,5 @@
     </ng-template>
   </ng-template>
 
+</div>
 </div>

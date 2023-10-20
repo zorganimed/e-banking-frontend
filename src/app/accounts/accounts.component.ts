@@ -31,7 +31,7 @@ export class AccountsComponent implements OnInit{
       amount : this.fb.control(0),
       description : this.fb.control( null),
       accountDestination : this.fb.control(null)
-    })
+    });
   }
 
   handleSearchAccount() {

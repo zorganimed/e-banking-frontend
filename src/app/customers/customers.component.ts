@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {CustomerService} from "../services/customer.service";
 import {catchError, map, Observable, throwError} from "rxjs";
-import {Customer} from "../model/customer.model";
+import {Customer, CustomerPage} from "../model/customer.model";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Router} from "@angular/router";
 
@@ -16,6 +16,9 @@ export class CustomersComponent implements OnInit{
   customers!:Observable<Array<Customer>>;
   errorMessage!:string;
   searchFormGroup : FormGroup | undefined;
+  currentPage : number = 0;
+  pageSize : number = 2;
+  customersPageObservable! : Observable<CustomerPage>;
 
   constructor(private customerService : CustomerService,
               private fb : FormBuilder, private router : Router) {
@@ -27,7 +30,8 @@ export class CustomersComponent implements OnInit{
       keyword : this.fb.control("")
     });
 
-    this.handleSearchCustomers();
+    //this.handleSearchCustomers();
+    this.handleSearchCustomersPage();
   }
 
   handleSearchCustomers() {
@@ -40,6 +44,24 @@ export class CustomersComponent implements OnInit{
      )
 
   }
+
+  handleSearchCustomersPage() {
+    let kw = this.searchFormGroup?.value.keyword;
+    this.customersPageObservable = this.customerService.searchCustomersPage(kw,this.currentPage,this.pageSize).pipe(
+      catchError(err => {
+        this.errorMessage = err.message;
+        return throwError(err);
+      })
+    )
+
+  }
+
+  gotoPage(page: number) {
+    this.currentPage = page;
+    this.handleSearchCustomersPage();
+
+  }
+
 
   handleDeleteCustomer(c : Customer) {
 
