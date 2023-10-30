@@ -10,8 +10,14 @@
           <a class="nav-link active" aria-current="page" href="#">Home</a>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/accounts">Accounts</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownc" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Accounts
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" routerLink="/accounts">Search account</a></li>
+            <li><a class="dropdown-item" routerLink="/new-account">New Accounts</a></li>
+          </ul>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

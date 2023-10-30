@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {CustomerService} from "../services/customer.service";
-import {catchError, map, Observable, throwError} from "rxjs";
+import {async, catchError, map, Observable, throwError} from "rxjs";
 import {Customer, CustomerPage} from "../model/customer.model";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Router} from "@angular/router";
+
 
 @Component({
   selector: 'app-customers',
@@ -47,12 +48,16 @@ export class CustomersComponent implements OnInit{
 
   handleSearchCustomersPage() {
     let kw = this.searchFormGroup?.value.keyword;
+
     this.customersPageObservable = this.customerService.searchCustomersPage(kw,this.currentPage,this.pageSize).pipe(
       catchError(err => {
         this.errorMessage = err.message;
         return throwError(err);
       })
+
     )
+
+    console.log('object is ',this.customersPageObservable )
 
   }
 
@@ -70,12 +75,14 @@ export class CustomersComponent implements OnInit{
     this.customerService.deleteCustomer(c.id).subscribe({
       next : resp=>{
          this.customers = this.customers.pipe(
-           map(data=>{
+          map(data=>{
              let index = data.indexOf(c);
              data.slice(index,1);
              return data;
            })
+
          );
+        this.handleSearchCustomersPage();
       },
       error : err=>{
         console.log(err);
@@ -87,5 +94,10 @@ export class CustomersComponent implements OnInit{
 
     this.router.navigateByUrl("/customer-accounts/"+customer.id,{state : customer});
 
+  }
+
+  handleUpdateCustomer(c: Customer) {
+
+    this.router.navigateByUrl("/update-customer/"+c.id);
   }
 }

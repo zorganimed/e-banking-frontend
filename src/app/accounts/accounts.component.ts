@@ -27,7 +27,7 @@ export class AccountsComponent implements OnInit{
     });
     this.operationFormGroup = this.fb.group({
       accountId : this.fb.control(''),
-      operationType : this.fb.control(null),
+      operationType : this.fb.control('DEBIT'),
       amount : this.fb.control(0),
       description : this.fb.control( null),
       accountDestination : this.fb.control(null)

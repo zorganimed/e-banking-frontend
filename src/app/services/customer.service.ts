@@ -19,6 +19,10 @@ export class CustomerService {
     return this.http.get<Array<Customer>>(environment.backendHost+"customers")
   }
 
+  public getAllCustomers(){
+    return this.http.get(environment.backendHost+"customers")
+  }
+
   public searchCustomers(keyword : string):Observable<Array<Customer>>{
     return this.http.get<Array<Customer>>(environment.backendHost+"customers/search?keyword="+keyword);
   }
@@ -38,5 +42,13 @@ export class CustomerService {
 
   public searchCustomersPage(keyword : string, page : number, size : number):Observable<CustomerPage>{
     return this.http.get<CustomerPage>(environment.backendHost+"customers/searchByName?keyword="+keyword+"&page="+page+"&size="+size);
+  }
+
+  public getCustomer(customerId : number):Observable<Customer>{
+    return this.http.get<Customer>(environment.backendHost+"customers/"+customerId);
+  }
+
+  public updateCustomer(customer : Customer):Observable<Customer>{
+    return this.http.put<Customer>(environment.backendHost+"customers/"+customer.id,customer);
   }
 }

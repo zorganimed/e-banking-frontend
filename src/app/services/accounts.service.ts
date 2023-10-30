@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment.development";
 import {Observable} from "rxjs";
 import {AccountDetails} from "../model/account.model";
+import {CustomerAccounts} from "../model/customer-accounts.model";
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +33,13 @@ export class AccountsService {
 
   public deleteAccount(id :string){
     return this.http.delete(environment.backendHost+"accounts/"+id);
+  }
+
+  public saveSavingAccount(savingAccount : CustomerAccounts, idCustomer : string):Observable<CustomerAccounts>{
+    return this.http.post<CustomerAccounts>(environment.backendHost+"accounts/addSavingAccount/"+idCustomer,savingAccount);
+  }
+
+  public saveCurrentAccount(currentAccount : CustomerAccounts, idCustomer : string):Observable<CustomerAccounts>{
+    return this.http.post<CustomerAccounts>(environment.backendHost+"accounts/addCurrentAccount/"+idCustomer,currentAccount);
   }
 }
